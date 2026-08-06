@@ -4,6 +4,8 @@
 
 Zeact is an independently implemented TypeScript toolkit built on React 18. It provides focused hooks, stores, and headless-friendly components for interfaces that receive frequent updates and must remain responsive under load.
 
+[Live demo](https://jiupeidun.github.io/Zeact/) · [Source code](https://github.com/Jiupeidun/Zeact)
+
 Zeact is **not** a React fork, renderer, or replacement. It uses React's public APIs and concentrates scene-specific performance policies in reusable modules.
 
 > [!IMPORTANT]

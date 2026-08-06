@@ -43,7 +43,6 @@
   "scripts": {
     "build": "tsup",
     "build:demo": "vite build --config examples/basic/vite.config.ts",
-    "deploy:demo": "npm run build:demo && npx --yes wrangler@latest pages deploy examples/basic/dist --project-name zeact-demo --branch develop",
     "dev": "vite --config examples/basic/vite.config.ts",
     "preview:demo": "vite preview --config examples/basic/vite.config.ts",
     "test": "vitest run",
@@ -71,6 +70,14 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "homepage": "https://jiupeidun.github.io/Zeact/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jiupeidun/Zeact.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jiupeidun/Zeact/issues"
   },
   "overrides": {
     "tsup": {
