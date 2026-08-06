@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const exampleRoot = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
+  base: './',
   root: exampleRoot,
   plugins: [react()],
   resolve: {
