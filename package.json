@@ -2,8 +2,17 @@
   "name": "@kertin/zeact",
   "version": "0.1.0",
   "description": "Scenario-tuned performance primitives for React 18",
+  "keywords": [
+    "react",
+    "react-hooks",
+    "performance",
+    "virtual-list",
+    "realtime",
+    "charts",
+    "live-streaming",
+    "typescript"
+  ],
   "type": "module",
-  "private": true,
   "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -38,17 +47,21 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
     "LICENSE"
   ],
   "scripts": {
     "build": "tsup",
     "build:demo": "vite build --config examples/basic/vite.config.ts",
+    "check:package": "node scripts/validate-package.mjs",
     "dev": "vite --config examples/basic/vite.config.ts",
     "preview:demo": "vite preview --config examples/basic/vite.config.ts",
+    "prepack": "npm run check",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run test && npm run build"
+    "check": "npm run typecheck && npm run test && npm run build && npm run check:package"
   },
   "peerDependencies": {
     "react": ">=18.2.0 <19",
@@ -78,6 +91,10 @@
   },
   "bugs": {
     "url": "https://github.com/Jiupeidun/Zeact/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "overrides": {
     "tsup": {

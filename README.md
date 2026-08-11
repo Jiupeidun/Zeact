@@ -1,5 +1,9 @@
 # Zeact
 
+[![npm version](https://img.shields.io/npm/v/@kertin/zeact.svg)](https://www.npmjs.com/package/@kertin/zeact)
+[![CI](https://github.com/Jiupeidun/Zeact/actions/workflows/ci.yml/badge.svg)](https://github.com/Jiupeidun/Zeact/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/@kertin/zeact.svg)](./LICENSE)
+
 > React 18 primitives for high-frequency interfaces: chat timelines, market data, and live media.
 
 Zeact is an independently implemented TypeScript toolkit built on React 18. It provides focused hooks, stores, and headless-friendly components for interfaces that receive frequent updates and must remain responsive under load.
@@ -9,7 +13,7 @@ Zeact is an independently implemented TypeScript toolkit built on React 18. It p
 Zeact is **not** a React fork, renderer, or replacement. It uses React's public APIs and concentrates scene-specific performance policies in reusable modules.
 
 > [!IMPORTANT]
-> Zeact is currently an experimental `0.x` project. The package is not yet published and `package.json` remains private while the public API is being stabilized. APIs may change before the first stable release.
+> Zeact is currently an experimental `0.x` project. It is publicly available, but APIs may change before the first stable release.
 
 ## Why Zeact?
 
@@ -43,29 +47,27 @@ The package exposes both ESM and CommonJS builds and ships TypeScript declaratio
 
 ## Getting started
 
-The repository is currently intended for source development and local evaluation.
+Install Zeact alongside its React 18 peer dependencies:
+
+```bash
+npm install @kertin/zeact react@18 react-dom@18
+```
+
+Import only the scene-specific entry points your application needs:
+
+```tsx
+import { VirtualChatList } from '@kertin/zeact/chat';
+import { createQuoteStore, RealtimeLineChart } from '@kertin/zeact/trade';
+import { useLiveLatency, useVideoFrames } from '@kertin/zeact/live';
+```
+
+For source development:
 
 ```bash
 npm ci
 npm run check
 npm run dev
 ```
-
-To consume a local build from another project:
-
-```bash
-npm run build
-cd /path/to/your-app
-npm install /absolute/path/to/zeact
-```
-
-After the first public release, the intended installation command is:
-
-```bash
-npm install @kertin/zeact react react-dom
-```
-
-Do not rely on that registry command until the package is marked public and a release is announced.
 
 ## Usage
 
@@ -272,7 +274,8 @@ Avoid importing internal source paths. Only the documented package entry points 
 | `npm test` | Run the test suite once |
 | `npm run test:watch` | Run tests in watch mode |
 | `npm run typecheck` | Type-check the project without emitting files |
-| `npm run check` | Run type-checking, tests, and the production build |
+| `npm run check` | Run type-checking, tests, builds, and packaged-consumer smoke tests |
+| `npm run check:package` | Pack and install Zeact in temporary ESM and CommonJS consumers |
 
 Before proposing a change, run:
 
@@ -303,17 +306,16 @@ By contributing, you agree that your contributions will be licensed under the pr
 ## Roadmap
 
 - Stabilize the initial hooks and package entry points.
-- Add automated CI for supported Node.js and React versions.
 - Publish reproducible chat, market-feed, chart, and live-player benchmarks.
 - Expand accessibility coverage for example components and interactions.
 - Add integration fixtures for SSR and common React application frameworks.
-- Publish `@kertin/zeact` after the release and security processes are ready.
+- Add React 19 compatibility after its behavior is validated.
 
 Roadmap items describe intent, not a release commitment.
 
 ## Security
 
-Zeact has not completed a production security review. Do not include secrets in bug reports or reproducible examples. A private vulnerability-reporting channel and security policy will be published before the first public release.
+Zeact has not completed a production security review. Do not include secrets in public issues or reproducible examples. Report suspected vulnerabilities through the process described in the [Security Policy](./SECURITY.md).
 
 ## Independent implementation
 
