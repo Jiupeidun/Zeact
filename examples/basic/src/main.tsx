@@ -5,6 +5,7 @@ import {
   createQuoteStore,
   createRealtimeSeries,
   RealtimeLineChart,
+  StackedColumnChart,
   useQuote,
   useQuoteTimeline,
 } from '@kertin/zeact/trade';
@@ -56,6 +57,20 @@ const predictionLayers = [
   { id: 'no', label: 'No', color: '#ff7a9c', series: createRealtimeSeries(1_024) },
   { id: 'undecided', label: 'Undecided', color: '#8ea6ff', series: createRealtimeSeries(1_024) },
 ];
+
+const trainingLayers = [
+  { id: 'pullups', label: 'Pull-ups', color: '#8ea6ff' },
+  { id: 'squats', label: 'Squats', color: '#78f6ca' },
+  { id: 'kegels', label: 'Kegels', color: '#ff9b68' },
+] as const;
+const trainingData = Array.from({ length: 18 }, (_, index) => ({
+  time: Date.UTC(2026, 7, index + 1) / 1_000,
+  values: {
+    pullups: (index % 4) * 12,
+    squats: (index % 3) * 20,
+    kegels: (index % 5) * 10,
+  },
+}));
 
 function BrandMark() {
   return <span className="brand-mark" aria-hidden="true">Z</span>;
@@ -158,6 +173,28 @@ function PredictionChart() {
       </div>
       <div className="legend">
         {predictionLayers.map((layer) => <span key={layer.id}><i style={{ background: layer.color }} />{layer.label}</span>)}
+      </div>
+    </section>
+  );
+}
+
+function StackedVolumeChart() {
+  return (
+    <section className="panel stacked-panel">
+      <div className="panel-heading">
+        <div><span className="eyebrow">NATIVE STACKED SVG</span><h2>Daily training volume</h2></div>
+        <span className="status-badge">3 layers</span>
+      </div>
+      <div className="market-chart stacked-chart">
+        <StackedColumnChart
+          data={trainingData}
+          layers={trainingLayers}
+          ariaLabel="Daily training repetitions by exercise"
+          windows={[{ label: 'All', seconds: 365 * 86_400 }, { label: '7D', seconds: 7 * 86_400 }]}
+          windowStyle="text"
+          formatTime={(time) => new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(time * 1_000))}
+          formatValue={(value) => `${Math.round(value)}`}
+        />
       </div>
     </section>
   );
@@ -307,6 +344,7 @@ function App() {
         </section>
         <ChatDemo />
         <PredictionChart />
+        <StackedVolumeChart />
         <LiveDemo />
       </div>
 

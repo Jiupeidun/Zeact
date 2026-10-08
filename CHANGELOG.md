@@ -2,6 +2,12 @@
 
 All notable changes to Zeact will be documented in this file. The project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Native `StackedColumnChart` with time windows, exact hover/tap and keyboard inspection, responsive SVG rendering, themes, legends, and custom tooltips.
+
 ## [0.1.0] - 2026-08-11
 
 ### Added

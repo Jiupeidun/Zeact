@@ -79,6 +79,7 @@ try {
       hooks.useRafState,
       chat.VirtualChatList,
       trade.createQuoteStore,
+      trade.StackedColumnChart,
       live.useMediaState,
     ];
     if (exportsToCheck.some((value) => typeof value !== 'function')) process.exit(1);
@@ -90,7 +91,7 @@ try {
     const chat = require('@kertin/zeact/chat');
     const trade = require('@kertin/zeact/trade');
     const live = require('@kertin/zeact/live');
-    if ([root.createKeyedStore, chat.VirtualChatList, trade.createQuoteStore, live.useMediaState]
+    if ([root.createKeyedStore, chat.VirtualChatList, trade.createQuoteStore, trade.StackedColumnChart, live.useMediaState]
       .some((value) => typeof value !== 'function')) process.exit(1);
   `);
   run('node', ['smoke.cjs'], temporaryDirectory);

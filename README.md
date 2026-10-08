@@ -33,7 +33,7 @@ Zeact packages these concerns as composable React 18 primitives instead of impos
 | `@kertin/zeact` | Core and general hooks | Core utilities, `useLatest`, `useRafState`, `useStableCallback` |
 | `@kertin/zeact/hooks` | Browser and scheduling hooks | `useElementSize`, `usePageVisibility`, `useReducedMotion` |
 | `@kertin/zeact/chat` | Anchored virtual timelines | `VirtualChatList`, `useAnchoredVirtualList`, `SizeIndex` |
-| `@kertin/zeact/trade` | External quote stores and charts | `createQuoteStore`, quote hooks, `RealtimeLineChart`, chart hooks |
+| `@kertin/zeact/trade` | External quote stores and charts | `createQuoteStore`, quote hooks, `RealtimeLineChart`, `StackedColumnChart`, chart hooks |
 | `@kertin/zeact/live` | Live-media synchronization | `useMediaState`, `useLiveLatency`, `useVideoFrames` |
 
 The package exposes both ESM and CommonJS builds and ships TypeScript declarations.
@@ -175,6 +175,32 @@ export function MarketChart({ symbol }: { symbol: string }) {
 ```
 
 Time values are Unix seconds. Convert millisecond timestamps before adding them to a series. Lower-level APIs such as `createRealtimeSeries`, `useChartControls`, and `useRealtimeLineChart` are available for custom renderers and controls.
+
+### Stacked column charts
+
+`StackedColumnChart` renders multiple non-negative series as native, accessible SVG columns. It includes responsive scaling, exact pointer and keyboard inspection, time-window controls, light and dark themes, a legend, automatic uncluttered total labels, and an overridable tooltip.
+
+```tsx
+import { StackedColumnChart } from '@kertin/zeact/trade';
+
+export function TrainingChart() {
+  return <div style={{ height: 360 }}><StackedColumnChart
+    ariaLabel="Daily training repetitions"
+    theme="light"
+    data={[
+      { time: 1_787_500_800, values: { pullups: 36, squats: 40, kegels: 20 } },
+      { time: 1_787_587_200, values: { pullups: 24, squats: 20, kegels: 30 } },
+    ]}
+    layers={[
+      { id: 'pullups', label: 'Pull-ups', color: '#7856ff' },
+      { id: 'squats', label: 'Squats', color: '#00ba7c' },
+      { id: 'kegels', label: 'Kegels', color: '#f45d22' },
+    ]}
+    windows={[{ label: 'All', seconds: 365 * 86_400 }, { label: '30D', seconds: 30 * 86_400 }]}
+    windowStyle="rounded"
+  /></div>;
+}
+```
 
 ### Live-media state and latency
 
