@@ -6,7 +6,7 @@ All notable changes to Zeact will be documented in this file. The project follow
 
 ### Added
 
-- Native `StackedColumnChart` with time windows, exact hover/tap and keyboard inspection, responsive SVG rendering, themes, legends, and custom tooltips.
+- Native `StackedColumnChart` with time windows, exact hover/tap and keyboard inspection, responsive SVG rendering, theme palette overrides, legends, and custom tooltips.
 
 ## [0.1.0] - 2026-08-11
 

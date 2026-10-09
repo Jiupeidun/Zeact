@@ -29,6 +29,7 @@ describe('StackedColumnChart', () => {
       data={data}
       layers={layers}
       theme="light"
+      palette={{ background: '#fff1e5' }}
       ariaLabel="Daily training volume"
       windows={[{ label: 'All', seconds: 1_000 }, { label: '30D', seconds: 30 }]}
       onWindowChange={onWindowChange}
@@ -37,6 +38,7 @@ describe('StackedColumnChart', () => {
     /></div>);
 
     expect(screen.getByRole('img', { name: 'Daily training volume' })).toBeTruthy();
+    expect(container.querySelector('svg > rect')?.getAttribute('fill')).toBe('#fff1e5');
     expect(screen.getByRole('button', { name: 'T100: 54 reps total' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'T200: 72 reps total' })).toBeTruthy();
     expect(container.querySelectorAll('rect[fill="#7856ff"]')).toHaveLength(2);

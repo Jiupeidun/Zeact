@@ -178,7 +178,7 @@ Time values are Unix seconds. Convert millisecond timestamps before adding them 
 
 ### Stacked column charts
 
-`StackedColumnChart` renders multiple non-negative series as native, accessible SVG columns. It includes responsive scaling, exact pointer and keyboard inspection, time-window controls, light and dark themes, a legend, automatic uncluttered total labels, and an overridable tooltip.
+`StackedColumnChart` renders multiple non-negative series as native, accessible SVG columns. It includes responsive scaling, exact pointer and keyboard inspection, time-window controls, light and dark themes, palette overrides for application themes, a legend, automatic uncluttered total labels, and an overridable tooltip.
 
 ```tsx
 import { StackedColumnChart } from '@kertin/zeact/trade';

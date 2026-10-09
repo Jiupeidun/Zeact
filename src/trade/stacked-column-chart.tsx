@@ -22,6 +22,14 @@ export interface StackedColumnHover {
   total: number;
 }
 
+export interface StackedColumnPalette {
+  background: string;
+  grid: string;
+  label: string;
+  tooltip: string;
+  panel: string;
+}
+
 export interface StackedColumnChartProps {
   data: readonly StackedColumnDatum[];
   layers: readonly StackedColumnLayer[];
@@ -29,6 +37,7 @@ export interface StackedColumnChartProps {
   style?: CSSProperties;
   ariaLabel?: string;
   theme?: ChartTheme;
+  palette?: Partial<StackedColumnPalette>;
   grid?: boolean;
   showLegend?: boolean;
   showTotals?: boolean | 'auto';
@@ -86,6 +95,7 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
     style,
     ariaLabel = 'Stacked column chart',
     theme = 'dark',
+    palette: paletteOverrides,
     grid = true,
     showLegend = true,
     showTotals = 'auto',
@@ -102,7 +112,7 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
   const effectiveWindow = props.windowSeconds ?? controls.windowSeconds;
   const [activeTime, setActiveTime] = useRafState<number | null>(null);
   const titleId = useId();
-  const palette = theme === 'light' ? LIGHT : DARK;
+  const palette = { ...(theme === 'light' ? LIGHT : DARK), ...paletteOverrides };
   const padding = { ...DEFAULT_PADDING, ...props.padding };
   const plotWidth = WIDTH - padding.left - padding.right;
   const plotHeight = HEIGHT - padding.top - padding.bottom;
