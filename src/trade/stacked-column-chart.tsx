@@ -62,6 +62,17 @@ const LIGHT = { background: '#ffffff', grid: 'rgba(71,85,105,.16)', label: '#647
 const defaultFormatValue = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 2 });
 const defaultFormatTime = (time: number) => new Date(time * 1_000).toLocaleDateString();
 
+export function clientXToStackedColumnViewBox(
+  clientX: number,
+  bounds: Pick<DOMRect, 'height' | 'left' | 'width'>,
+) {
+  const scale = Math.min(bounds.width / WIDTH, bounds.height / HEIGHT);
+  if (!Number.isFinite(scale) || scale <= 0) return 0;
+  const renderedWidth = WIDTH * scale;
+  const horizontalInset = Math.max(0, (bounds.width - renderedWidth) / 2);
+  return (clientX - bounds.left - horizontalInset) / scale;
+}
+
 function layerValue(datum: StackedColumnDatum, id: string) {
   const value = datum.values[id];
   return Number.isFinite(value) ? Math.max(0, value ?? 0) : 0;
@@ -153,7 +164,7 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
   const inspect = (event: PointerEvent<SVGSVGElement>) => {
     if (visible.length === 0) return;
     const bounds = event.currentTarget.getBoundingClientRect();
-    const pointerX = ((event.clientX - bounds.left) / Math.max(1, bounds.width)) * WIDTH;
+    const pointerX = clientXToStackedColumnViewBox(event.clientX, bounds);
     let nearestIndex = 0;
     let nearestDistance = Number.POSITIVE_INFINITY;
     xPositions.forEach((x, index) => {

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import {
-  niceStackedColumnMax, stackedColumnTotal, StackedColumnChart,
+  clientXToStackedColumnViewBox, niceStackedColumnMax, stackedColumnTotal, StackedColumnChart,
   type StackedColumnDatum, type StackedColumnLayer,
 } from '../src/trade/stacked-column-chart';
 
@@ -21,6 +21,16 @@ describe('StackedColumnChart', () => {
     expect(stackedColumnTotal({ time: 1, values: { pullups: -3, squats: Number.NaN, kegels: 10 } }, layers)).toBe(10);
     expect(niceStackedColumnMax(72)).toBe(100);
     expect(niceStackedColumnMax(0)).toBe(1);
+  });
+
+  it('maps pointer coordinates through the SVG meet scaling and centered inset', () => {
+    const bounds = { left: 100, width: 1_200, height: 360 };
+    expect(clientXToStackedColumnViewBox(240, bounds)).toBe(0);
+    expect(clientXToStackedColumnViewBox(700, bounds)).toBe(460);
+    expect(clientXToStackedColumnViewBox(1_160, bounds)).toBe(920);
+
+    const narrowBounds = { left: 20, width: 460, height: 360 };
+    expect(clientXToStackedColumnViewBox(250, narrowBounds)).toBe(460);
   });
 
   it('renders native stacked segments, legend, windows and precise accessible totals', () => {

@@ -4,6 +4,10 @@ All notable changes to Zeact will be documented in this file. The project follow
 
 ## [Unreleased]
 
+### Fixed
+
+- Corrected stacked-column pointer hit testing when the responsive SVG is letterboxed inside a wider container.
+
 ### Added
 
 - Native `StackedColumnChart` with time windows, exact hover/tap and keyboard inspection, responsive SVG rendering, theme palette overrides, legends, and custom tooltips.
