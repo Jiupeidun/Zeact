@@ -51,6 +51,7 @@ export interface StackedColumnChartProps {
   formatTime?: (unixSeconds: number) => string;
   renderTooltip?: (point: StackedColumnHover) => ReactNode;
   padding?: Partial<ChartPadding>;
+  viewBoxHeight?: number;
 }
 
 const WIDTH = 920;
@@ -65,8 +66,9 @@ const defaultFormatTime = (time: number) => new Date(time * 1_000).toLocaleDateS
 export function clientXToStackedColumnViewBox(
   clientX: number,
   bounds: Pick<DOMRect, 'height' | 'left' | 'width'>,
+  viewBoxHeight = HEIGHT,
 ) {
-  const scale = Math.min(bounds.width / WIDTH, bounds.height / HEIGHT);
+  const scale = Math.min(bounds.width / WIDTH, bounds.height / viewBoxHeight);
   if (!Number.isFinite(scale) || scale <= 0) return 0;
   const renderedWidth = WIDTH * scale;
   const horizontalInset = Math.max(0, (bounds.width - renderedWidth) / 2);
@@ -120,13 +122,14 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
     renderTooltip,
   } = props;
   const controls = useChartControls({ initialWindowSeconds: props.windowSeconds ?? windows?.[0]?.seconds ?? Number.POSITIVE_INFINITY });
+  const viewBoxHeight = Math.max(240, props.viewBoxHeight ?? HEIGHT);
   const effectiveWindow = props.windowSeconds ?? controls.windowSeconds;
   const [activeTime, setActiveTime] = useRafState<number | null>(null);
   const titleId = useId();
   const palette = { ...(theme === 'light' ? LIGHT : DARK), ...paletteOverrides };
   const padding = { ...DEFAULT_PADDING, ...props.padding };
   const plotWidth = WIDTH - padding.left - padding.right;
-  const plotHeight = HEIGHT - padding.top - padding.bottom;
+  const plotHeight = viewBoxHeight - padding.top - padding.bottom;
   const sorted = useMemo(() => [...data]
     .filter((datum) => Number.isFinite(datum.time))
     .sort((left, right) => left.time - right.time), [data]);
@@ -164,7 +167,7 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
   const inspect = (event: PointerEvent<SVGSVGElement>) => {
     if (visible.length === 0) return;
     const bounds = event.currentTarget.getBoundingClientRect();
-    const pointerX = clientXToStackedColumnViewBox(event.clientX, bounds);
+    const pointerX = clientXToStackedColumnViewBox(event.clientX, bounds, viewBoxHeight);
     let nearestIndex = 0;
     let nearestDistance = Number.POSITIVE_INFINITY;
     xPositions.forEach((x, index) => {
@@ -188,7 +191,7 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
 
   return <div className={className} style={{ height: '100%', position: 'relative', width: '100%', ...style }}>
     <svg
-      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      viewBox={`0 0 ${WIDTH} ${viewBoxHeight}`}
       role="img"
       aria-label={ariaLabel}
       onPointerMove={inspect}
@@ -197,8 +200,8 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
       style={{ display: 'block', height: '100%', touchAction: 'none', width: '100%' }}
     >
       <title id={titleId}>{ariaLabel}</title>
-      <rect width={WIDTH} height={HEIGHT} fill={palette.background} />
-      {visible.length === 0 ? <text x={WIDTH / 2} y={HEIGHT / 2} fill={palette.label} fontSize="13" textAnchor="middle">{emptyText}</text> : <>
+      <rect width={WIDTH} height={viewBoxHeight} fill={palette.background} />
+      {visible.length === 0 ? <text x={WIDTH / 2} y={viewBoxHeight / 2} fill={palette.label} fontSize="13" textAnchor="middle">{emptyText}</text> : <>
         {grid && gridTicks.map((fraction) => {
           const y = padding.top + plotHeight * (1 - fraction);
           return <g key={fraction}><line x1={padding.left} x2={padding.left + plotWidth} y1={y} y2={y} stroke={palette.grid} /><text x={WIDTH - 5} y={y + 4} fill={palette.label} fontSize="11" textAnchor="end">{formatValue(yMax * fraction)}</text></g>;
@@ -229,7 +232,7 @@ export function StackedColumnChart(props: StackedColumnChartProps) {
         {tickIndexes.map((index) => {
           const datum = visible[index];
           if (!datum) return null;
-          return <text key={datum.time} x={xPositions[index]} y={HEIGHT - 13} fill={palette.label} fontSize="11" textAnchor={index === 0 ? 'start' : index === visible.length - 1 ? 'end' : 'middle'}>{formatTime(datum.time)}</text>;
+          return <text key={datum.time} x={xPositions[index]} y={viewBoxHeight - 13} fill={palette.label} fontSize="11" textAnchor={index === 0 ? 'start' : index === visible.length - 1 ? 'end' : 'middle'}>{formatTime(datum.time)}</text>;
         })}
         {activeDatum ? <line x1={xPositions[activeIndex]} x2={xPositions[activeIndex]} y1={padding.top} y2={padding.top + plotHeight} stroke={palette.tooltip} strokeDasharray="4 4" opacity=".55" /> : null}
       </>}
