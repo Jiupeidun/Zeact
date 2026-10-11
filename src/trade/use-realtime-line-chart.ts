@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type RefCallback } from 'react';
 import { useLatest } from '../hooks/use-latest';
+import { drawActivePoint } from './active-point';
 import type { RealtimeSeries, TimePoint } from './time-series';
 
 export type ChartTheme = 'dark' | 'light';
@@ -46,6 +47,8 @@ export interface RealtimeLineChartOptions {
   area?: boolean;
   badge?: boolean;
   crosshair?: boolean;
+  hoverPoint?: boolean;
+  hoverPointRadius?: number;
   paused?: boolean;
   response?: number;
   lineWidth?: number;
@@ -552,7 +555,7 @@ export function useRealtimeLineChart(
       const hover = hoverRef.current;
       if (config.crosshair !== false && hover && hover.x >= padding.left && hover.x <= padding.left + plotWidth) {
         const hoverTime = startTime + ((hover.x - padding.left) / plotWidth) * windowSeconds;
-        const point = series.findNearest(hoverTime);
+        const point = primarySeries.findNearest(hoverTime);
         if (point && point.time >= startTime) {
           const x = xFor(point.time);
           const y = yFor(point.value);
@@ -565,6 +568,14 @@ export function useRealtimeLineChart(
           context.lineTo(padding.left + plotWidth, y);
           context.stroke();
           context.setLineDash([]);
+          if (config.hoverPoint !== false) {
+            drawActivePoint(context, x, y, {
+              color: activeLayers[0]?.color ?? color,
+              background: palette.background,
+              outline: palette.tooltip,
+              radius: config.hoverPointRadius ?? 5,
+            });
+          }
           context.fillStyle = palette.tooltip;
           context.font = '12px system-ui, sans-serif';
           context.textAlign = 'left';

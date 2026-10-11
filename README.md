@@ -144,7 +144,7 @@ Feed transport is deliberately outside the store. WebSocket, Server-Sent Events,
 
 ### Real-time line charts
 
-Zeact includes primitives for bounded time series, animation-frame rendering, live-follow behavior, pan, zoom, pause, reset, crosshair inspection, grid lines, and canvas resizing.
+Zeact includes primitives for bounded time series, animation-frame rendering, live-follow behavior, pan, zoom, pause, reset, crosshair inspection with a high-contrast active-point marker, grid lines, and canvas resizing. Set `hoverPoint={false}` to hide the marker or use `hoverPointRadius` to tune its size.
 
 ```tsx
 import {

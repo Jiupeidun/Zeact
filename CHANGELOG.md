@@ -7,11 +7,13 @@ All notable changes to Zeact will be documented in this file. The project follow
 ### Fixed
 
 - Corrected stacked-column pointer hit testing when the responsive SVG is letterboxed inside a wider container.
+- Line-chart hover inspection now marks the exact active point with a high-contrast dot and follows the first visible layer consistently.
 
 ### Added
 
 - Native `StackedColumnChart` with time windows, exact hover/tap and keyboard inspection, responsive SVG rendering, theme palette overrides, legends, and custom tooltips.
 - Configurable stacked-column view-box height for larger, denser dashboard layouts.
+- Configurable `hoverPoint` and `hoverPointRadius` options for canvas line charts.
 
 ## [0.1.0] - 2026-08-11
 
