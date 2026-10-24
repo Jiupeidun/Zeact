@@ -7,6 +7,7 @@ export default defineConfig({
     'src/chat/index.ts',
     'src/trade/index.ts',
     'src/live/index.ts',
+    'src/notify/index.ts',
   ],
   format: ['esm', 'cjs'],
   dts: true,
