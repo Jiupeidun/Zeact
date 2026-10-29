@@ -4,6 +4,16 @@ All notable changes to Zeact will be documented in this file. The project follow
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-30
+
+### Added
+
+- Added top-center and bottom-center notification placement with safe-area offsets.
+- Added brand and neutral visual variants, optional actions, dismiss controls, bounded stacking, and accessible status semantics.
+- Added reduced-motion-aware entrance and exit animation for notifications.
+
+## [0.1.1] - 2026-10-24
+
 ### Fixed
 
 - Corrected stacked-column pointer hit testing when the responsive SVG is letterboxed inside a wider container.

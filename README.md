@@ -63,9 +63,9 @@ function PriceCell({ symbol }: { symbol: string }) {
 quotes.push({ symbol: 'BTC/USDT', price: 65240.5, changePercent: 1.82, timestamp: Date.now() });
 ```
 
-### Centered Toast
+### Notifications
 
-Wrap the application once, then call `useToast()` from any descendant. Notifications are centered, accessible, auto-dismissed by default, and can be closed manually.
+Wrap the application once, then call `useToast()` from any descendant. Notifications are centered near the top or bottom edge, respect safe areas, are accessible, animated, auto-dismissed by default, and can be closed manually.
 
 ```tsx
 import { ToastProvider, useToast } from '@kertin/zeact/notify';
@@ -76,11 +76,11 @@ function SaveButton() {
 }
 
 function App() {
-  return <ToastProvider><SaveButton /></ToastProvider>;
+  return <ToastProvider position="bottom-center" variant="brand"><SaveButton /></ToastProvider>;
 }
 ```
 
-Available methods: `show(message, options)`, `info`, `success`, `warning`, `error`, and `dismiss(id)`. Options are `type` and `duration` in milliseconds; set `duration: 0` for a persistent notification. `ToastProvider` accepts `duration` and `maxToasts` defaults.
+Available methods: `show(message, options)`, `info`, `success`, `warning`, `error`, and `dismiss(id)`. Options include `type`, `duration`, `dismissible`, and an optional `{ label, onClick }` action; set `duration: 0` for a persistent notification. `ToastProvider` accepts `position`, `variant`, `offset`, `duration`, and `maxToasts` defaults.
 
 ### Live media
 

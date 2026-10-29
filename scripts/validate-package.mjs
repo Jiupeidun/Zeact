@@ -55,6 +55,7 @@ try {
     'dist/chat/index.js',
     'dist/trade/index.js',
     'dist/live/index.js',
+    'dist/notify/index.js',
   ];
 
   for (const file of requiredFiles) {
@@ -73,6 +74,7 @@ try {
     import * as chat from '@kertin/zeact/chat';
     import * as trade from '@kertin/zeact/trade';
     import * as live from '@kertin/zeact/live';
+    import * as notify from '@kertin/zeact/notify';
 
     const exportsToCheck = [
       root.createKeyedStore,
@@ -81,6 +83,7 @@ try {
       trade.createQuoteStore,
       trade.StackedColumnChart,
       live.useMediaState,
+      notify.ToastProvider,
     ];
     if (exportsToCheck.some((value) => typeof value !== 'function')) process.exit(1);
   `);
@@ -91,7 +94,8 @@ try {
     const chat = require('@kertin/zeact/chat');
     const trade = require('@kertin/zeact/trade');
     const live = require('@kertin/zeact/live');
-    if ([root.createKeyedStore, chat.VirtualChatList, trade.createQuoteStore, trade.StackedColumnChart, live.useMediaState]
+    const notify = require('@kertin/zeact/notify');
+    if ([root.createKeyedStore, chat.VirtualChatList, trade.createQuoteStore, trade.StackedColumnChart, live.useMediaState, notify.ToastProvider]
       .some((value) => typeof value !== 'function')) process.exit(1);
   `);
   run('node', ['smoke.cjs'], temporaryDirectory);
