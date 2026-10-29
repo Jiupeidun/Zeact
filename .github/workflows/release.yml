@@ -3,6 +3,7 @@ name: Publish package to npm
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,6 +24,7 @@ jobs:
           package-manager-cache: false
 
       - name: Verify release tag
+        if: github.event_name == 'release'
         run: test "v$(node -p \"require('./package.json').version\")" = "$GITHUB_REF_NAME"
 
       - name: Install dependencies
