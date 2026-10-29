@@ -4,7 +4,7 @@ All notable changes to Zeact will be documented in this file. The project follow
 
 ## [Unreleased]
 
-## [0.2.0] - 2026-10-30
+## [0.2.1] - 2026-10-30
 
 ### Added
 

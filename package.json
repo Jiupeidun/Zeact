@@ -1,6 +1,6 @@
 {
   "name": "@kertin/zeact",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Scenario-tuned performance primitives for React 18",
   "keywords": [
     "react",
